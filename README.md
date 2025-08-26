@@ -98,83 +98,52 @@ Check DynamoDB → Table Explorer → Item appears (id=1, name=Book).
 
 ---
 
-**Step 7: Create Another Lambda (for API CRUD)**
+### Step 7: Create Another Lambda (for API CRUD)
+- This Lambda handles API requests to view, add, or delete items.
+- Go to **Lambda → Create Function.**
+- Function name: items-api-func.
+- Runtime: Python 3.12.
+- Attach the same role (lambda-s3-dynamo-role).
+- GO & Paste code from: items-api-func.py.txt
 
-This Lambda handles API requests to view, add, or delete items.
+---
 
-Go to Lambda → Create Function.
+### Step 8: Setup API Gateway
 
-Function name: items-api-func.
+- Go to **API Gateway → Create API → HTTP API**
+- Name: items-api
+- Integrate with items-api-func
+- Add routes:
+ - `GET /items → items-api-func`
+ - `POST /items → items-api-func`
+ - `DELETE /items/{id} → items-api-func`
+- Deploy → **Stage: prod**
 
-Runtime: Python 3.12.
-
-Attach the same role (lambda-s3-dynamo-role).
-
-GO & Paste code from: items-api-func.py.txt
-
-**Step 8: Setup API Gateway**
-
-Go to API Gateway → Create API → HTTP API
-
-Name: items-api
-
-Integrate with items-api-func
-
-Add routes:
-
-GET /items → items-api-func
-
-POST /items → items-api-func
-
-DELETE /items/{id} → items-api-func
-
-Deploy → Stage: prod
-
-👉 After deployment, you get an Invoke URL like:
+- After deployment, you get an Invoke URL like:
 
 https://abc123.execute-api.ap-south-1.amazonaws.com/prod
 
+---
+
 **Step 9: Test the API**
-
-GET all items
-
-GET https://abc123.execute-api.ap-south-1.amazonaws.com/prod/items
-
-POST add new item
-
-POST https://abc123.execute-api.ap-south-1.amazonaws.com/prod/items
-
-Body:
+- GET all items
+```GET https://abc123.execute-api.ap-south-1.amazonaws.com/prod/items```
+- POST add new item
+```POST https://abc123.execute-api.ap-south-1.amazonaws.com/prod/items```
+- Body:
 {
   "id": "2",
   "name": "Laptop",
   "category": "Electronics"
 }
-
-DELETE an item
-
-DELETE https://abc123.execute-api.ap-south-1.amazonaws.com/prod/2
-
-
-Now you have a fully working serverless CRUD app!
-
-**_Achieved_**
-
-Learned how S3 can trigger Lambda.
-
-Used DynamoDB as a serverless database.
-
-Created REST APIs with API Gateway + Lambda.
-
-Tested end-to-end CRUD operations without any servers.
-
-Logging & error tracking available in CloudWatch.
+- DELETE an item
+```DELETE https://abc123.execute-api.ap-south-1.amazonaws.com/prod/2```
+- Now you have a fully working serverless CRUD app!
 
 ---
 
 ### Step 10: Enable Monitoring with CloudWatch
-
-AWS CloudWatch helps you monitor Lambda execution, errors, and performance.
+- AWS CloudWatch helps you monitor Lambda execution, errors, and performance.
 
 #### 1. View Lambda Logs
 - Go to **Lambda → Monitor tab → View logs in CloudWatch**  
@@ -188,3 +157,13 @@ AWS CloudWatch helps you monitor Lambda execution, errors, and performance.
 - Open **CloudWatch → Logs → Log groups**  
 - By default, Lambda creates a log group like:  
 
+---
+
+### Achieved
+- Learned how S3 can trigger Lambda.
+- Used DynamoDB as a serverless database.
+- Created REST APIs with API Gateway + Lambda.
+- Tested end-to-end CRUD operations without any servers.
+- Logging & error tracking available in CloudWatch.
+
+---
