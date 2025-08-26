@@ -96,6 +96,8 @@ Upload sample file `sample-data/file.txt`:
 
 Check DynamoDB → Table Explorer → Item appears (id=1, name=Book).
 
+---
+
 **Step 7: Create Another Lambda (for API CRUD)**
 
 This Lambda handles API requests to view, add, or delete items.
