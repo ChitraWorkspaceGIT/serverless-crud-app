@@ -45,14 +45,7 @@ Enter a unique name (example: my-serverlesschitra-bucket).
 
 Choose a region (e.g., us-east-1) → Create.
 
-
 Example Json file:
-
-{
-  "id": "1",
-  "name": "Book",
-  "category": "Stationery"
-}
 
 **Step 2: Create a DynamoDB Table**
 (DynamoDB is where all your items will be stored like a database.)
