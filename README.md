@@ -131,11 +131,12 @@ https://abc123.execute-api.ap-south-1.amazonaws.com/prod
 - POST add new item
 ```POST https://abc123.execute-api.ap-south-1.amazonaws.com/prod/items```
 - Body:
-{
+```{
   "id": "2",
   "name": "Laptop",
   "category": "Electronics"
 }
+```
 - DELETE an item
 ```DELETE https://abc123.execute-api.ap-south-1.amazonaws.com/prod/2```
 - Now you have a fully working serverless CRUD app!
