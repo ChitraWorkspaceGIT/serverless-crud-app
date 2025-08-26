@@ -80,6 +80,7 @@ Attach permissions: AmazonS3FullAccess, AmazonDynamoDBFullAccess, CloudWatchLogs
 Name it: lambda-s3-dynamo-role.
 
 **Step 4: Create Lambda Function (S3 → DynamoDB)**
+This Lambda is triggered when a file is uploaded to S3. It reads the file and saves the data into DynamoDB.
 
 Go to Lambda → Create Function.
 
@@ -89,39 +90,10 @@ Runtime: Python 3.11.
 
 Choose the IAM role lambda-s3-dynamo-role.
 
-Paste this code:
+Go & Paste this code: s3-to-dynamodb-func.py.txt
 
-import json
-import boto3
-
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('ItemsTable')
-
-def lambda_handler(event, context):
-    s3 = boto3.client('s3')
-
-    for record in event['Records']:
-        bucket = record['s3']['bucket']['name']
-        key = record['s3']['object']['key']
-
-        response = s3.get_object(Bucket=bucket, Key=key)
-        content = response['Body'].read().decode('utf-8')
-        data = json.loads(content)
-
-        table.put_item(Item={
-            'id': data['id'],
-            'name': data['name'],
-            'category': data.get('category', 'unknown')
-        })
-
-    return {"statusCode": 200, "body": "Saved to DynamoDB"}
-
-
-👉 Why?
-This Lambda is triggered when a file is uploaded to S3. It reads the file and saves the data into DynamoDB.
-
-🟢 Step 5: Connect S3 to Lambda
-
+**Step 5: Connect S3 to Lambda**
+Every time you upload a JSON file → it will be stored in DynamoDB automatically.
 Open your Lambda → Add Trigger.
 
 Choose S3.
@@ -130,9 +102,7 @@ Select your bucket (my-serverless-items-bucket).
 
 Event type: PUT (when a new file is created).
 
-Save.
-
-👉 Now: Every time you upload a JSON file → it will be stored in DynamoDB automatically.
+Every time you upload a JSON file → it will be stored in DynamoDB automatically.
 
 🟢 Step 6: Test the Flow
 
