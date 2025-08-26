@@ -35,7 +35,8 @@ IAM Roles & Policies (permissions)
 CloudWatch Logs (monitoring & error logging)
 
 **Step 1: Create an S3 Bucket**
-(This bucket where you can upload JSON files.)
+
+This bucket where you can upload JSON files.
 
 Open the AWS Console → Go to S3.
 
@@ -48,7 +49,8 @@ Choose a region (e.g., us-east-1) → Create.
 Example Json file:
 
 **Step 2: Create a DynamoDB Table**
-(DynamoDB is where all your items will be stored like a database.)
+
+DynamoDB is where all your items will be stored like a database.
 
 Open DynamoDB in AWS Console.
 
@@ -73,6 +75,7 @@ Attach permissions: AmazonS3FullAccess, AmazonDynamoDBFullAccess, CloudWatchLogs
 Name it: lambda-s3-dynamo-role.
 
 **Step 4: Create Lambda Function (S3 → DynamoDB)**
+
 This Lambda is triggered when a file is uploaded to S3. It reads the file and saves the data into DynamoDB.
 
 Go to Lambda → Create Function.
@@ -86,43 +89,42 @@ Choose the IAM role lambda-s3-dynamo-role.
 Go & Paste this code: s3-to-dynamodb-func.py.txt
 
 **Step 5: Connect S3 to Lambda**
+
 Every time you upload a JSON file → it will be stored in DynamoDB automatically.
+
 Open your Lambda → Add Trigger.
 
-Choose S3.
-
-Select your bucket (my-serverless-items-bucket).
+Choose S3 -> Select your bucket (my-serverlesschitra-bucket).
 
 Event type: PUT (when a new file is created).
 
-Every time you upload a JSON file → it will be stored in DynamoDB automatically.
+**Step 6: Test the Flow**
 
-🟢 Step 6: Test the Flow
-
-Upload item1.json into S3:
+Upload jsonfile(sample-data/file) into S3:
 
 {
+ 
   "id": "1",
+ 
   "name": "Book",
+ 
   "category": "Stationery"
+
 }
 
+Go to DynamoDB → Explore Table --> You’ll see the item saved (id=1, name=Book).
 
-Go to DynamoDB → Explore Table.
-
-✅ You’ll see the item saved (id=1, name=Book).
-
-🟢 Step 7: Create Another Lambda (for API CRUD)
+**Step 7: Create Another Lambda (for API CRUD)**
 
 Go to Lambda → Create Function.
 
 Function name: items-api-func.
 
-Runtime: Python 3.9.
+Runtime: Python 3.12.
 
 Attach the same role (lambda-s3-dynamo-role).
 
-Paste this code:
+GO & Paste this code: 
 
 import json
 import boto3
