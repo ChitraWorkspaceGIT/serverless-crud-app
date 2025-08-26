@@ -10,28 +10,15 @@ This project demonstrates how to:
 
 -->Perform CRUD operations (GET, POST, DELETE) without managing servers.
 
-**# _Architecture_**
+**_Architecture_**
 
-1. Amazon S3
+1. Amazon S3: Stores uploaded JSON files. Triggers a Lambda when a file is uploaded.
 
-Stores uploaded JSON files. Triggers a Lambda when a file is uploaded.
+2. AWS Lambda: Processes S3 file uploads and saves data into DynamoDB. Provides business logic for API requests (GET, POST, DELETE).
 
-2. AWS Lambda
+3. Amazon DynamoDB: NoSQL database to store items.
 
-Processes S3 file uploads and saves data into DynamoDB. Provides business logic for API requests (GET, POST, DELETE).
-
-3. Amazon DynamoDB
-
-NoSQL database to store items.
-
-4. Amazon API Gateway
-
-Exposes REST API endpoints: GET /items → list all items
-
-                            POST /items → add an item
-
-                            DELETE /items/{id} → delete item by ID
-
+4. Amazon API Gateway: Exposes REST API endpoints: GET /items → list all items,  POST /items → add an item,  DELETE /items/{id} → delete item by ID
 
 **_Technologies Used_**
 
@@ -48,6 +35,7 @@ IAM Roles & Policies (permissions)
 CloudWatch Logs (monitoring & error logging)
 
 **Step 1: Create an S3 Bucket**
+(This bucket where you can upload JSON files.)
 
 Open the AWS Console → Go to S3.
 
@@ -57,10 +45,8 @@ Enter a unique name (example: my-serverlesschitra-bucket).
 
 Choose a region (e.g., us-east-1) → Create.
 
-👉 Why?
-This bucket is like a folder on the cloud where you can upload JSON files.
 
-Example file:
+Example Json file:
 
 {
   "id": "1",
@@ -68,7 +54,8 @@ Example file:
   "category": "Stationery"
 }
 
-🟢 Step 2: Create a DynamoDB Table
+**Step 2: Create a DynamoDB Table**
+(DynamoDB is where all your items will be stored like a database.)
 
 Open DynamoDB in AWS Console.
 
@@ -80,35 +67,25 @@ Partition key: id (String).
 
 Leave defaults → Create table.
 
-👉 Why?
-DynamoDB is where all your items will be stored like a database.
+**Step 3: Create an IAM Role for Lambda**
 
-🟢 Step 3: Create an IAM Role for Lambda
+This role gives permission for Lambda functions to read from S3, write to DynamoDB, and log errors to CloudWatch.
 
 Open IAM → Roles → Create Role.
 
 Trusted entity: Lambda.
 
-Attach permissions:
-
-AmazonS3FullAccess
-
-AmazonDynamoDBFullAccess
-
-CloudWatchLogsFullAccess
+Attach permissions: AmazonS3FullAccess, AmazonDynamoDBFullAccess, CloudWatchLogsFullAccess
 
 Name it: lambda-s3-dynamo-role.
 
-👉 Why?
-This role gives permission for Lambda functions to read from S3, write to DynamoDB, and log errors to CloudWatch.
-
-🟢 Step 4: Create Lambda Function (S3 → DynamoDB)
+**Step 4: Create Lambda Function (S3 → DynamoDB)**
 
 Go to Lambda → Create Function.
 
 Function name: s3-to-dynamodb-func.
 
-Runtime: Python 3.9.
+Runtime: Python 3.11.
 
 Choose the IAM role lambda-s3-dynamo-role.
 
