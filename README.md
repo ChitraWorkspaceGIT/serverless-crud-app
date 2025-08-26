@@ -93,7 +93,7 @@ Upload sample file `sample-data/file.txt`:
   "name": "Book",
   "category": "Stationery"
 }
-
+```
 Check DynamoDB → Table Explorer → Item appears (id=1, name=Book).
 
 ---
