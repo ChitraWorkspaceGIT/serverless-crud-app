@@ -14,33 +14,28 @@ This project demonstrates how to:
 
 1. Amazon S3
 
-Stores uploaded JSON files.
+Stores uploaded JSON files. Triggers a Lambda when a file is uploaded.
 
-Triggers a Lambda when a file is uploaded.
+2. AWS Lambda
 
-AWS Lambda
+Processes S3 file uploads and saves data into DynamoDB. Provides business logic for API requests (GET, POST, DELETE).
 
-Processes S3 file uploads and saves data into DynamoDB.
-
-Provides business logic for API requests (GET, POST, DELETE).
-
-Amazon DynamoDB
+3. Amazon DynamoDB
 
 NoSQL database to store items.
 
-Amazon API Gateway
+4. Amazon API Gateway
 
-Exposes REST API endpoints:
+Exposes REST API endpoints: GET /items → list all items
 
-GET /items → list all items
+                            POST /items → add an item
 
-POST /items → add an item
+                            DELETE /items/{id} → delete item by ID
 
-DELETE /items/{id} → delete item by ID🟢 Step 1: Create an S3 Bucket
 
-🔧 Technologies Used
+**_Technologies Used_**
 
-AWS Lambda (Python 3.9 runtime)
+AWS Lambda (Python 3.11 runtime)
 
 Amazon S3 (storage + event trigger)
 
@@ -52,15 +47,15 @@ IAM Roles & Policies (permissions)
 
 CloudWatch Logs (monitoring & error logging)
 
+**Step 1: Create an S3 Bucket**
+
 Open the AWS Console → Go to S3.
 
 Click Create bucket.
 
-Enter a unique name (example: my-serverless-items-bucket).
+Enter a unique name (example: my-serverlesschitra-bucket).
 
-Choose a region (e.g., ap-south-1).
-
-Leave all other options default → Create.
+Choose a region (e.g., us-east-1) → Create.
 
 👉 Why?
 This bucket is like a folder on the cloud where you can upload JSON files.
