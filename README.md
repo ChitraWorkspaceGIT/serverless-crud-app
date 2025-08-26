@@ -1,4 +1,4 @@
-<u> ## Serverless CRUD App(s3+Lambda+API Gateway+DynamoDB) </u>
+## Serverless CRUD App(s3+Lambda+API Gateway+DynamoDB)
 
 A simple serverless CRUD (Create, Read, Update, Delete) application built on AWS using S3, Lambda, API Gateway, and DynamoDB.
 
@@ -10,7 +10,7 @@ This project demonstrates how to:
 
 -->Perform CRUD operations (GET, POST, DELETE) without managing servers.
 
-### Architecture
+<u>### Architecture<u/>
 
 1. Amazon S3
 
