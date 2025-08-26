@@ -10,7 +10,7 @@ This project demonstrates how to:
 
 -->Perform CRUD operations (GET, POST, DELETE) without managing servers.
 
-<u>### Architecture<u/>
+**_Architecture_**
 
 1. Amazon S3
 
