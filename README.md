@@ -46,8 +46,6 @@ Enter a unique name (example: my-serverlesschitra-bucket).
 
 Choose a region (e.g., us-east-1) → Create.
 
-Example Json file:
-
 **Step 2: Create a DynamoDB Table**
 
 DynamoDB is where all your items will be stored like a database.
@@ -100,7 +98,7 @@ Event type: PUT (when a new file is created).
 
 **Step 6: Test the Flow**
 
-Upload jsonfile(sample-data/file) into S3:
+Upload jsonfile(sample-data/file.txt) into S3:
 
 {
  
@@ -116,6 +114,8 @@ Go to DynamoDB → Explore Table --> You’ll see the item saved (id=1, name=Boo
 
 **Step 7: Create Another Lambda (for API CRUD)**
 
+This Lambda handles API requests to view, add, or delete items.
+
 Go to Lambda → Create Function.
 
 Function name: items-api-func.
@@ -124,38 +124,9 @@ Runtime: Python 3.12.
 
 Attach the same role (lambda-s3-dynamo-role).
 
-GO & Paste this code: 
+GO & Paste this code: items-api-func.py.txt
 
-import json
-import boto3
-
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('ItemsTable')
-
-def lambda_handler(event, context):
-    method = event['requestContext']['http']['method']
-
-    if method == "GET":
-        items = table.scan()
-        return {"statusCode": 200, "body": json.dumps(items['Items'])}
-
-    elif method == "POST":
-        body = json.loads(event['body'])
-        table.put_item(Item=body)
-        return {"statusCode": 200, "body": "Item added"}
-
-    elif method == "DELETE":
-        item_id = event['pathParameters']['id']
-        table.delete_item(Key={'id': item_id})
-        return {"statusCode": 200, "body": "Item deleted"}
-
-    return {"statusCode": 400, "body": "Unsupported method"}
-
-
-👉 Why?
-This Lambda handles API requests to view, add, or delete items.
-
-🟢 Step 8: Set Up API Gateway
+**Step 8: Set Up API Gateway**
 
 Go to API Gateway → Create API → HTTP API.
 
@@ -177,16 +148,16 @@ Deploy → Stage name: prod.
 
 https://abc123.execute-api.ap-south-1.amazonaws.com/prod
 
-🟢 Step 9: Test the API
+**Step 9: Test the API**
 
 GET all items
 
 GET https://abc123.execute-api.ap-south-1.amazonaws.com/prod/items
 
-
 POST add new item
 
 POST https://abc123.execute-api.ap-south-1.amazonaws.com/prod/items
+
 Body:
 {
   "id": "2",
@@ -194,15 +165,14 @@ Body:
   "category": "Electronics"
 }
 
-
 DELETE an item
 
 DELETE https://abc123.execute-api.ap-south-1.amazonaws.com/prod/2
 
 
-✅ Now you have a fully working serverless CRUD app!
+Now you have a fully working serverless CRUD app!
 
-🎯 What You Achieved
+**_Achieved_**
 
 Learned how S3 can trigger Lambda.
 
